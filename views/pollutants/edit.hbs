@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Забрудники</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+  {{> header}}
+  <main>
+    <section class="pt-5">
+      <div class="container">
+        <h1 class="text-center">Редагування</h1>
+        <form class="pt-3 d-flex flex-column gap-4 col-12 col-sm-9 col-md-8 col-lg-7 col-xl-6 mx-auto"
+          action="/pollutants/{{pollutant.pollutant_id}}?_method=PUT" method="POST">
+          <div>
+            <label class="form-label" for="pollutantName">Назва <span class="text-danger">*</span></label>
+            <input id="pollutantName" class="form-control" type="text" name="pollutant[pollutant_name]"
+              value="{{pollutant.pollutant_name}}" required="required" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantMinMassCons">Мін. масова витрата (т/рік)</label>
+            <input id="pollutantMinMassCons" class="form-control" type="number" min="0" step="any"
+              name="pollutant[min_mass_consumption]" value="{{pollutant.min_mass_consumption}}" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantMaxMassCons">Макс. масова витрата (т/рік)</label>
+            <input id="pollutantMaxMassCons" class="form-control" type="number" min="0" step="any"
+              name="pollutant[max_mass_consumption]" value="{{pollutant.max_mass_consumption}}" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantGDK">ГДК</label>
+            <input id="pollutantGDK" class="form-control" type="number" step="any" min="0" name="pollutant[gdk]"
+              value="{{pollutant.gdk}}" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantDangerClass">Клас небезпеки</label>
+            <input id="pollutantDangerClass" class="form-control" type="number" min="1" max="4"
+              name="pollutant[danger_class]" value="{{#if dangerClassNumber}}{{dangerClassNumber}}{{/if}}" />
+          </div>
+          <button class="btn btn-primary" type="submit">Підтвердити</button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+  <script src="\js\activeNavItem.js"></script>
+</body>
+
+</html>

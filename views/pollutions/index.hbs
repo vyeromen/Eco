@@ -17,21 +17,6 @@
   <main>
     <section class="pt-3">
       <div class="container">
-        <div class="d-flex flex-wrap row-gap-3 p-1">
-          <div class="col-12 col-sm-6 text-sm-start text-center">
-            <h1>Забруднення</h1>
-          </div>
-          <div
-            class="col-12 col-sm-6 gap-1 d-flex flex-wrap justify-content-end justify-content-sm-end align-items-center">
-            <a class="btn btn-primary" href="/pollutions/add">Додати забруднення</a>
-            <form id="fileUploadForm" action="/pollutions/load-excel" enctype="multipart/form-data" method="POST">
-              <input id="formFile" class="form-control" type="file" name="load-excel"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                required="required" onchange="uploadFile()" />
-            </form>
-            <button id="uploadButton" class="btn btn-primary" onclick="triggerFileInput()">Додати з Excel</button>
-          </div>
-        </div>
         {{#if pollutionItems.length}}
         <div class="table-responsive">
           <table class="table table-hover table-bordered" id="sortableTable">
@@ -75,6 +60,18 @@
           Забруднення не знайдені
         </div>
         {{/if}}
+        <div class="d-flex flex-wrap row-gap-3 p-1 justify-content-end justify-content-sm-end mb-4">
+          <div
+            class="col-12 col-sm-6 gap-1 d-flex flex-wrap justify-content-end justify-content-sm-end align-items-center">
+            <a class="btn btn-primary" href="/pollutions/add">Додати забруднення</a>
+            <form id="fileUploadForm" action="/pollutions/load-excel" enctype="multipart/form-data" method="POST">
+              <input id="formFile" class="form-control" type="file" name="load-excel"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required="required" onchange="uploadFile()" />
+            </form>
+            <button id="uploadButton" class="btn btn-primary" onclick="triggerFileInput()">Додати з Excel</button>
+          </div>
+        </div>
       </div>
     </section>
   </main>

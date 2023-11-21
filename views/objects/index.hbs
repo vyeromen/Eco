@@ -16,8 +16,11 @@
   <main>
     <section class="pt-3">
       <div class="container">
+        <div class="align-middle">
+          <input type="text" name="search" id="search" class="form-control" placeholder="Введіть пошуковий запит" />
+        </div>
         {{#if objectItems.length}}
-        <div class="table-responsive">
+        <div class="table-responsive pt-3">
           <table id="sortableTable" class="table table-hover table-bordered">
             <thead>
               <tr class="align-middle">
@@ -79,6 +82,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
   <script src="\js\tableSort.js"></script>
+  <script src="\js\tableSearch.js"></script>
   <script src="\js\activeNavItem.js"></script>
 </body>
 

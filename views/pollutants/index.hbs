@@ -16,10 +16,10 @@
   <main>
     <section class="pt-3">
       <div class="container">
-        <div class="align-middle">
+        {{#if pollutantItems.length}}
+        <div class="align-middle col-lg-5 col-xl-5">
           <input type="text" name="search" id="search" class="form-control" placeholder="Введіть пошуковий запит" />
         </div>
-        {{#if pollutantItems.length}}
         <div class="table-responsive pt-3">
           <table class="table table-hover table-bordered" id="sortableTable">
             <thead>
@@ -28,7 +28,10 @@
                 <th scope="col" class="sortColumn">Назва</th>
                 <th scope="col" class="sortColumn">Мін. показник масової витрати (т/рік)</th>
                 <th scope="col" class="sortColumn">Макс. показник масової витрати (т/рік)</th>
+                <th scope="col" class="sortColumn">ГДВ (мг/м<sup>3</sup>)</th>
                 <th scope="col" class="sortColumn">ГДК (мг/м<sup>3</sup>)</th>
+                <th scope="col" class="sortColumn">Референтна концентрація (мг/куб.м)</th>
+                <th scope="col" class="sortColumn">Фактор нахилу (мг/(кг * доба))</th>
                 <th scope="col" class="sortColumn">Клас небезпеки</th>
                 <th scope="col"></th>
               </tr>
@@ -40,7 +43,10 @@
                 <td>{{this.pollutant_name}}</td>
                 <td>{{this.min_mass_consumption}}</td>
                 <td>{{this.max_mass_consumption}}</td>
+                <td>{{this.gdv}}</td>
                 <td>{{this.gdk}}</td>
+                <td>{{this.rfc}}</td>
+                <td>{{this.sf}}</td>
                 <td>{{this.danger_class}}</td>
                 <td class="px-0">
                   <div class="d-flex flex-row justify-content-center align-items-center">

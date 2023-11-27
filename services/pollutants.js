@@ -7,19 +7,19 @@ module.exports.selectAll = async () => {
 
 module.exports.insertOne = async (pollutant) => {
   await connection.query(
-    "INSERT INTO pollutant (pollutant_name, min_mass_consumption, max_mass_consumption, gdk, danger_class) VALUES (?, ?, ?, ?, ?);",
-    [pollutant.pollutant_name, pollutant.min_mass_consumption, pollutant.max_mass_consumption, pollutant.gdk, pollutant.danger_class]
+    "INSERT INTO pollutant (pollutant_name, min_mass_consumption, max_mass_consumption, gdv, gdk, rfc, sf, danger_class) VALUES (?, ?, ?, ?, ?);",
+    [pollutant.pollutant_name, pollutant.min_mass_consumption, pollutant.max_mass_consumption, pollutant.gdv, pollutant.gdk, pollutant.rfc, pollutant.sf, pollutant.danger_class]
   );
 };
 
 module.exports.insertFromExcel = async (rows) => {
-  await connection.query("INSERT INTO pollutant (pollutant_name, min_mass_consumption, max_mass_consumption, gdk, danger_class) VALUES ?;", [rows]);
+  await connection.query("INSERT INTO pollutant (pollutant_name, min_mass_consumption, max_mass_consumption, gdv, gdk, rfc, sf, danger_class) VALUES ?;", [rows]);
 };
 
 module.exports.updateById = async (id, pollutant) => {
   const result = await connection.query(
-    "UPDATE pollutant SET pollutant_name = ?, min_mass_consumption = ?, max_mass_consumption = ?, gdk = ?, danger_class = ? WHERE pollutant_id = ?;",
-    [pollutant.pollutant_name, pollutant.min_mass_consumption, pollutant.max_mass_consumption, pollutant.gdk, pollutant.danger_class, id]
+    "UPDATE pollutant SET pollutant_name = ?, min_mass_consumption = ?, max_mass_consumption = ?, gdv = ?, gdk = ?, rfc = ?, sf = ?, danger_class = ? WHERE pollutant_id = ?;",
+    [pollutant.pollutant_name, pollutant.min_mass_consumption, pollutant.max_mass_consumption, pollutant.gdv, pollutant.gdk, pollutant.rfc, pollutant.sf, pollutant.danger_class, id]
   );
   return result[0].affectedRows;
 };

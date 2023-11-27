@@ -16,10 +16,10 @@
   <main>
     <section class="pt-3">
       <div class="container">
-        <div class="align-middle">
+        {{#if objectItems.length}}
+        <div class="align-middle col-lg-5 col-xl-5">
           <input type="text" name="search" id="search" class="form-control" placeholder="Введіть пошуковий запит" />
         </div>
-        {{#if objectItems.length}}
         <div class="table-responsive pt-3">
           <table id="sortableTable" class="table table-hover table-bordered">
             <thead>

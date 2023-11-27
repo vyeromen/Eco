@@ -46,7 +46,15 @@
               name="pollution[pollution_year]" value="{{pollution.pollution_year}}" required="required" />
           </div>
           <div>
-            <label class="form-label" for="pollutionValue">Кількість викидів (т/рік) <span class="text-danger">*</span></label>
+            <label class="form-label" for="pollutionConcentration">Концентрація (мг/м<sup>3</sup>) <span
+                class="text-danger">*</span></label>
+            <input id="pollutionConcentration" class="form-control" type="number" step="any" min="0"
+              name="pollution[pollution_concentration]" value="{{pollution.pollution_concentration}}"
+              required="required" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutionValue">Кількість викидів (т/рік) <span
+                class="text-danger">*</span></label>
             <input id="pollutionValue" class="form-control" type="number" step="any" min="0"
               name="pollution[pollution_value]" value="{{pollution.pollution_value}}" required="required" />
           </div>

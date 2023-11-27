@@ -13,7 +13,7 @@
   {{> header}}
   <main>
     <section class="pt-5">
-      <div class="container">
+      <div class="container mb-4">
         <h1 class="text-center">Редагування</h1>
         <form class="pt-3 d-flex flex-column gap-4 col-12 col-sm-9 col-md-8 col-lg-7 col-xl-6 mx-auto"
           action="/pollutants/{{pollutant.pollutant_id}}?_method=PUT" method="POST">
@@ -33,9 +33,26 @@
               name="pollutant[max_mass_consumption]" value="{{pollutant.max_mass_consumption}}" />
           </div>
           <div>
-            <label class="form-label" for="pollutantGDK">ГДК</label>
+            <label class="form-label" for="pollutantGDV">ГДВ (мг/м<sup>3</sup>)</label>
+            <input id="pollutantGDV" class="form-control" type="number" step="1" min="0" name="pollutant[gdv]"
+              value="{{pollutant.gdv}}" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantGDK">ГДК (мг/м<sup>3</sup>)</label>
             <input id="pollutantGDK" class="form-control" type="number" step="any" min="0" name="pollutant[gdk]"
               value="{{pollutant.gdk}}" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantRFC">Референтна концентрація (мг/куб.м) <span
+                class="text-danger">*</span></label>
+            <input id="pollutantRFC" class="form-control" type="number" step="any" min="0" name="pollutant[rfc]"
+              value="{{pollutant.rfc}}" required="required" />
+          </div>
+          <div>
+            <label class="form-label" for="pollutantSF">Фактор нахилу (мг/(кг * доба)) <span
+                class="text-danger">*</span></label>
+            <input id="pollutantSF" class="form-control" type="number" step="any" min="0" name="pollutant[sf]"
+              value="{{pollutant.sf}}" required="required" />
           </div>
           <div>
             <label class="form-label" for="pollutantDangerClass">Клас небезпеки</label>

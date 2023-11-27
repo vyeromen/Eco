@@ -17,10 +17,10 @@
   <main>
     <section class="pt-3">
       <div class="container">
-        <div class="align-middle">
+        {{#if pollutionItems.length}}
+        <div class="align-middle col-lg-5 col-xl-5">
           <input type="text" name="search" id="search" class="form-control" placeholder="Введіть пошуковий запит" />
         </div>
-        {{#if pollutionItems.length}}
         <div class="table-responsive pt-3">
           <table class="table table-hover table-bordered" id="sortableTable">
             <thead>
@@ -29,7 +29,10 @@
                 <th scope="col" class="sortColumn">Підприємство</th>
                 <th scope="col" class="sortColumn">Забруднювач</th>
                 <th scope="col" class="sortColumn">Рік</th>
-                <th scope="col" class="sortColumn">Кількість (т/рік)</th>
+                <th scope="col" class="sortColumn">Концентрація (мг/м<sup>3</sup>)</th>
+                <th scope="col" class="sortColumn">Кількість викидів (т/рік)</th>
+                <th scope="col" class="sortColumn">Неканцерогенний ризик</th>
+                <th scope="col" class="sortColumn">Канцерогенний ризик</th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -40,7 +43,16 @@
                 <td>{{this.object_name}}</td>
                 <td>{{this.pollutant_name}}</td>
                 <td>{{this.pollution_year}}</td>
+                <td>{{this.pollution_concentration}}</td>
                 <td>{{this.pollution_value}}</td>
+                {{#each ../calculatedRisks}}
+                {{#if (eq this.id ../pollution_id)}}
+                <td class="{{this.nonCancerRiskGrade.name}}" title="{{this.nonCancerRiskGrade.description}}">
+                  {{this.nonCancerRisk}}</td>
+                <td class="{{this.cancerRiskGrade.name}}" title="{{this.cancerRiskGrade.description}}">
+                  {{this.cancerRisk}}</td>
+                {{/if}}
+                {{/each}}
                 <td class="px-0">
                   <div class="d-flex flex-row justify-content-center align-items-center">
                     <a class="btn btn-link" href="/pollutions/{{this.pollution_id}}/edit">

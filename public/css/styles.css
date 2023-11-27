@@ -1,7 +1,35 @@
 .sortColumn:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #fileUploadForm {
-    display: none;
+  display: none;
+}
+
+.low-nonCancer-risk {
+  background-color: #198754 !important;
+}
+
+.medium-nonCancer-risk {
+  background-color: #fd7e14 !important;
+}
+
+.high-nonCancer-risk {
+  background-color: #dc3545 !important;
+}
+
+.low-cancer-risk {
+  background-color: #198754 !important;
+}
+
+.medium-cancer-risk {
+  background-color: #fd7e14 !important;
+}
+
+.high-cancer-risk {
+  background-color: #dc3545 !important;
+}
+
+.min-cancer-risk {
+  background-color: lightgreen !important;
 }

@@ -4,7 +4,8 @@ const stringToNull = require("./stringToNull");
 
 module.exports.index = async (req, res, next) => {
   const pollutionItems = await pollutionService.selectAll();
-  res.render("pollutions/index", { pollutionItems });
+  const calculatedRisks = await pollutionService.calculateRisks();
+  res.render("pollutions/index", { pollutionItems, calculatedRisks });
 };
 
 module.exports.renderAddPollutionForm = async (req, res, next) => {

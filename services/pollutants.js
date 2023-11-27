@@ -7,7 +7,7 @@ module.exports.selectAll = async () => {
 
 module.exports.insertOne = async (pollutant) => {
   await connection.query(
-    "INSERT INTO pollutant (pollutant_name, min_mass_consumption, max_mass_consumption, gdv, gdk, rfc, sf, danger_class) VALUES (?, ?, ?, ?, ?);",
+    "INSERT INTO pollutant (pollutant_name, min_mass_consumption, max_mass_consumption, gdv, gdk, rfc, sf, danger_class) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
     [pollutant.pollutant_name, pollutant.min_mass_consumption, pollutant.max_mass_consumption, pollutant.gdv, pollutant.gdk, pollutant.rfc, pollutant.sf, pollutant.danger_class]
   );
 };

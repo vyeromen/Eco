@@ -25,7 +25,7 @@ module.exports.insertOne = async (pollution) => {
     const pollutantId = await pollutantsService.getIdByName(pollution.pollutant_name);
 
     await connection.query(
-        "INSERT INTO pollution (object_id, pollutant_id, pollution_year, pollution_concentration, pollution_value) VALUES (?, ?, ?, ?);",
+        "INSERT INTO pollution (object_id, pollutant_id, pollution_year, pollution_concentration, pollution_value) VALUES (?, ?, ?, ?, ?);",
         [objectId, pollutantId, pollution.pollution_year, pollution.pollution_concentration, pollution.pollution_value]
     );
 };
@@ -99,7 +99,7 @@ module.exports.calculateRisks = async () => {
     return result;
 };
 
-calcCr = async (id) => {
+const calcCr = async (id) => {
     const [[{ pollution_concentration: ca }]] = await connection.query("SELECT pollution_concentration FROM pollution WHERE pollution_id = ?;", [id]);
     const [[{ sf }]] = await connection.query("SELECT sf FROM pollutant WHERE pollutant_id = (SELECT pollutant_id FROM pollution WHERE pollution_id = ?);", [id]);
 
@@ -107,7 +107,7 @@ calcCr = async (id) => {
     return result;
 };
 
-calcHq = async (id) => {
+const calcHq = async (id) => {
     const [[{ pollution_concentration: ca }]] = await connection.query("SELECT pollution_concentration FROM pollution WHERE pollution_id = ?;", [id]);
     const [[{ rfc }]] = await connection.query("SELECT rfc FROM pollutant WHERE pollutant_id = (SELECT pollutant_id FROM pollution WHERE pollution_id = ?);", [id]);
 
@@ -115,7 +115,7 @@ calcHq = async (id) => {
     return result;
 };
 
-calcAddLadd = async (ca) => {
+const calcAddLadd = async (ca) => {
     const
         daysInYear = 365,
         defaultTout = 8,
@@ -130,7 +130,7 @@ calcAddLadd = async (ca) => {
     return (((ca * defaultTout * defaultVout) + (ca * defaultTin * defaultVin)) * defaultEF * defaultED) / (defaultBW * defaultAT * daysInYear);
 };
 
-nonCancerEvaluation = async (riskValue) => {
+const nonCancerEvaluation = async (riskValue) => {
     if (riskValue < 1) {
         return {
             name: 'low-nonCancer-risk',
@@ -149,7 +149,7 @@ nonCancerEvaluation = async (riskValue) => {
     }
 };
 
-cancerEvaluation = async (riskValue) => {
+const cancerEvaluation = async (riskValue) => {
     if (riskValue > 1e-3) {
         return {
             name: 'high-cancer-risk',

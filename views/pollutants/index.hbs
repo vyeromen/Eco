@@ -14,13 +14,26 @@
 <body>
   {{> header}}
   <main>
-    <section class="pt-3">
+    <section class="pt-3 pb-3">
       <div class="container">
-        {{#if pollutantItems.length}}
-        <div class="align-middle col-lg-5 col-xl-5">
-          <input type="text" name="search" id="search" class="form-control" placeholder="Введіть пошуковий запит" />
+        <div class="row mb-4">
+          <div class="col-12 col-md-6">
+            <input type="text" name="search" id="search" class="form-control" placeholder="Введіть пошуковий запит" />
+          </div>
+          <div class="col-12 col-md-6 d-flex justify-content-md-end mt-2 mt-md-0">
+            <a class="btn btn-primary me-2" href="/pollutants/add">Додати забруднювач</a>
+            <form id="fileUploadForm" action="/pollutants/load-excel" enctype="multipart/form-data" method="POST"
+              class="me-2">
+              <input id="formFile" class="form-control" type="file" name="load-excel"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                required="required" onchange="uploadFile()" />
+            </form>
+            <button id="uploadButton" class="btn btn-primary" onclick="triggerFileInput()">Додати з Excel</button>
+          </div>
         </div>
-        <div class="table-responsive pt-3">
+
+        {{#if pollutantItems.length}}
+        <div class="table-responsive pt-1">
           <table class="table table-hover table-bordered" id="sortableTable">
             <thead>
               <tr class="align-middle">
@@ -70,18 +83,6 @@
           Забруднювачі не знайдені
         </div>
         {{/if}}
-        <div class="d-flex flex-wrap row-gap-3 p-1 justify-content-end justify-content-sm-end mb-4">
-          <div
-            class="col-12 col-sm-6 gap-1 d-flex flex-wrap justify-content-end justify-content-sm-end align-items-center">
-            <a class="btn btn-primary" href="/pollutants/add">Додати забруднювач</a>
-            <form id="fileUploadForm" action="/pollutants/load-excel" enctype="multipart/form-data" method="POST">
-              <input id="formFile" class="form-control" type="file" name="load-excel"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                required="required" onchange="uploadFile()" />
-            </form>
-            <button id="uploadButton" class="btn btn-primary" onclick="triggerFileInput()">Додати з Excel</button>
-          </div>
-        </div>
       </div>
     </section>
   </main>

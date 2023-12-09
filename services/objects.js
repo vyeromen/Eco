@@ -7,19 +7,19 @@ module.exports.selectAll = async () => {
 
 module.exports.insertOne = async (object) => {
   await connection.query(
-    "INSERT INTO object (object_name, object_activity, object_address) VALUES (?, ?, ?);", 
-    [object.object_name, object.object_activity, object.object_address]
+    "INSERT INTO object (object_name, object_activity, object_address, k_nas, k_f) VALUES (?, ?, ?, ?, ?);",
+    [object.object_name, object.object_activity, object.object_address, object.k_nas, object.k_f]
   );
 };
 
 module.exports.insertFromExcel = async (rows) => {
-  await connection.query("INSERT INTO object (object_name, object_activity, object_address) VALUES ?;", [rows]);
+  await connection.query("INSERT INTO object (object_name, object_activity, object_address, k_nas, k_f) VALUES ?;", [rows]);
 };
 
 module.exports.updateById = async (id, object) => {
   const result = await connection.query(
-    "UPDATE object SET object_name = ?, object_activity = ?, object_address = ? WHERE object_id = ?;",
-    [object.object_name, object.object_activity, object.object_address, id]
+    "UPDATE object SET object_name = ?, object_activity = ?, object_address = ?, k_nas = ?, k_f = ? WHERE object_id = ?;",
+    [object.object_name, object.object_activity, object.object_address, object.k_nas, object.k_f, id]
   );
   return result[0].affectedRows;
 };

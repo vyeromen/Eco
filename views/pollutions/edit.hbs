@@ -13,7 +13,7 @@
   {{> header}}
   <main>
     <section class="pt-5">
-      <div class="container">
+      <div class="container mb-4">
         <h1 class="text-center">Редагування</h1>
         <form class="pt-3 d-flex flex-column gap-4 col-12 col-sm-9 col-md-8 col-lg-7 col-xl-6 mx-auto"
           action="/pollutions/{{pollution.pollution_id}}?_method=PUT" method="POST">
@@ -46,11 +46,23 @@
               name="pollution[pollution_year]" value="{{pollution.pollution_year}}" required="required" />
           </div>
           <div>
-            <label class="form-label" for="pollutionConcentration">Концентрація (мг/м<sup>3</sup>) <span
+            <label class="form-label" for="pollutionConcentration">Середньорічна концентрація (мг/м<sup>3</sup>) <span
                 class="text-danger">*</span></label>
             <input id="pollutionConcentration" class="form-control" type="number" step="any" min="0"
               name="pollution[pollution_concentration]" value="{{pollution.pollution_concentration}}"
               required="required" />
+          </div>
+          <div>
+            <label class="form-label" for="dailyGDK">Середньодобова ГДК (мг/м<sup>3</sup>) <span
+                class="text-danger">*</span></label>
+            <input id="dailyGDK" class="form-control" type="number" step="any" min="0" name="pollution[daily_gdk]"
+              value="{{pollution.daily_gdk}}" required="required" />
+          </div>
+          <div>
+            <label class="form-label" for="gasDustFlow">Об'ємна витрата газопилового потоку (м<sup>3</sup>/с) <span
+                class="text-danger">*</span></label>
+            <input id="gasDustFlow" class="form-control" type="number" step="any" min="0"
+              name="pollution[gas_dust_flow]" value="{{pollution.gas_dust_flow}}" required="required" />
           </div>
           <div>
             <label class="form-label" for="pollutionValue">Кількість викидів (т/рік) <span

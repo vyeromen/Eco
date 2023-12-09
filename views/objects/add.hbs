@@ -13,7 +13,7 @@
   {{> header}}
   <main>
     <section class="pt-5">
-      <div class="container">
+      <div class="container mb-4">
         <h1 class="text-center">Нове підприємство</h1>
         <form class="pt-3 d-flex flex-column gap-4 col-12 col-sm-9 col-md-8 col-lg-7 col-xl-6 mx-auto" action="/objects"
           method="POST">
@@ -28,6 +28,16 @@
           <div>
             <label class="form-label" for="objectAddress">Адреса</label>
             <input id="objectAddress" class="form-control" type="text" name="object[object_address]" />
+          </div>
+          <div>
+            <label class="form-label" for="knas"><span>К<sub>нас<sub></span> <span class="text-danger">*</span></label>
+            <input id="knas" class="form-control" type="number" min="1" max="1.8" step="any" name="object[k_nas]"
+              required="required" />
+          </div>
+          <div>
+            <label class="form-label" for="kf"><span>К<sub>ф<sub></span> <span class="text-danger">*</span></label>
+            <input id="kf" class="form-control" type="number" min="1" max="1.65" step="any" name="object[k_f]"
+              required="required" />
           </div>
           <button class="btn btn-primary" type="submit">Підтвердити</button>
         </form>

@@ -11,6 +11,8 @@ module.exports.selectAll = async () => {
         pollutant.pollutant_name, 
         pollution.pollution_year, 
         pollution.pollution_concentration,
+        pollution.daily_gdk,
+        pollution.gas_dust_flow,
         pollution.pollution_value 
     FROM pollution 
     INNER JOIN object ON pollution.object_id = object.object_id 
@@ -25,13 +27,13 @@ module.exports.insertOne = async (pollution) => {
     const pollutantId = await pollutantsService.getIdByName(pollution.pollutant_name);
 
     await connection.query(
-        "INSERT INTO pollution (object_id, pollutant_id, pollution_year, pollution_concentration, pollution_value) VALUES (?, ?, ?, ?, ?);",
-        [objectId, pollutantId, pollution.pollution_year, pollution.pollution_concentration, pollution.pollution_value]
+        "INSERT INTO pollution (object_id, pollutant_id, pollution_year, pollution_concentration, daily_gdk, gas_dust_flow, pollution_value) VALUES (?, ?, ?, ?, ?, ?, ?);",
+        [objectId, pollutantId, pollution.pollution_year, pollution.pollution_concentration, pollution.daily_gdk, pollution.gas_dust_flow, pollution.pollution_value]
     );
 };
 
 module.exports.insertFromExcel = async (rows) => {
-    await connection.query("INSERT INTO pollution (object_id, pollutant_id, pollution_year, pollution_concentration, pollution_value) VALUES ?;", [rows]);
+    await connection.query("INSERT INTO pollution (object_id, pollutant_id, pollution_year, pollution_concentration, daily_gdk, gas_dust_flow, pollution_value) VALUES ?;", [rows]);
 };
 
 module.exports.updateById = async (id, pollution) => {
@@ -39,8 +41,8 @@ module.exports.updateById = async (id, pollution) => {
     const pollutantId = await pollutantsService.getIdByName(pollution.pollutant_name);
 
     const result = await connection.query(
-        "UPDATE pollution SET  object_id = ?, pollutant_id = ?, pollution_year = ?, pollution_concentration = ?, pollution_value = ? WHERE pollution_id = ?;",
-        [objectId, pollutantId, pollution.pollution_year, pollution.pollution_concentration, pollution.pollution_value, id]
+        "UPDATE pollution SET  object_id = ?, pollutant_id = ?, pollution_year = ?, pollution_concentration = ?, daily_gdk = ?, gas_dust_flow = ?, pollution_value = ? WHERE pollution_id = ?;",
+        [objectId, pollutantId, pollution.pollution_year, pollution.pollution_concentration, pollution.daily_gdk, pollution.gas_dust_flow, pollution.pollution_value, id]
     );
     return result[0].affectedRows;
 };
@@ -59,6 +61,8 @@ module.exports.getById = async (id) => {
       pollutant.pollutant_name, 
       pollution.pollution_year, 
       pollution.pollution_concentration,
+      pollution.daily_gdk,
+      pollution.gas_dust_flow,
       pollution.pollution_value 
   FROM pollution 
   INNER JOIN object ON pollution.object_id = object.object_id 
@@ -172,4 +176,43 @@ const cancerEvaluation = async (riskValue) => {
             description: 'Мінімальний (De Minimis) - бажана (цільова) величина ризику при проведенні оздоровчих і природоохоронних заходів'
         };
     }
+};
+
+module.exports.calculateLoss = async () => {
+    const [ids] = await connection.query("SELECT pollution_id FROM pollution;");
+    const result = [];
+
+    for (let idObj of ids) {
+        const id = idObj.pollution_id;
+        let loss = await calcAirPenalty(id);
+        loss = loss.toFixed(2)
+        result.push({ id, loss });
+    }
+
+    return result;
+};
+
+const calcAirPenalty = async (id) => {
+    const
+        defaultMinWage = 6700,
+        defaultT = 8760;
+
+
+    const [[{ k_nas: knas }]] = await connection.query("SELECT k_nas FROM object WHERE object_id = (SELECT object_id FROM pollution WHERE pollution_id = ?);", [id]);
+    const [[{ k_f: kf }]] = await connection.query("SELECT k_f FROM object WHERE object_id = (SELECT object_id FROM pollution WHERE pollution_id = ?);", [id]);
+    const [[{ pollution_concentration: concentration }]] = await connection.query("SELECT pollution_concentration FROM pollution WHERE pollution_id = ?;", [id]);
+    const [[{ daily_gdk: gdkDaily }]] = await connection.query("SELECT daily_gdk FROM pollution WHERE pollution_id = ?;", [id]);
+    const [[{ gas_dust_flow: qv }]] = await connection.query("SELECT gas_dust_flow FROM pollution WHERE pollution_id = ?;", [id]);
+
+    const kT = knas * kf;
+    const kZi = concentration / gdkDaily;
+    if (concentration <= gdkDaily) return 0;
+    else if (gdkDaily > 1)
+        return await calcPollutionMass(concentration, gdkDaily, qv, defaultT) * 1.1 * defaultMinWage * (10 / gdkDaily) * kT * kZi;
+    else
+        return await calcPollutionMass(concentration, gdkDaily, qv, defaultT) * 1.1 * defaultMinWage * (1 / gdkDaily) * kT * kZi;
+};
+
+const calcPollutionMass = async (po, poNorm, qv, t) => {
+    return 3.6 * Math.pow(10, -6) * (po - poNorm) * qv * t;
 };
